@@ -1,7 +1,11 @@
 # apiteam-season2-workshop-apigw-allinone
 
 ## Prerequisites 
-https://github.com/YasuhideKato/apiteam-season2-workshop-vagrant
+* https://github.com/YasuhideKato/apiteam-season2-workshop-vagrant
+```
+cd apiteam-season2-workshop-apigw-allinone
+you put license file and Edge Module apigee-edge-4.15.07.03.zip to this directory.
+```
 
 ## Getting Started
 ```
