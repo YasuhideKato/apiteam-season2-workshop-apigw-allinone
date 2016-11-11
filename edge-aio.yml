@@ -1,0 +1,69 @@
+- become: yes
+  hosts: all
+  vars:
+    java: java-1.7.0-openjdk
+    java_latest: /usr/java/latest
+    java_default: /usr/java/default
+    edge: apigee-edge-4.15.07.03
+    admin_user: admin@example.com
+    admin_pass: secret123
+    org: base
+    env: prod
+  tasks:
+    - yum: name={{ item }} state=installed
+      with_items:
+        - '{{ java }}'
+        - '{{ java }}-devel'
+        - 'unzip'
+    - shell: readlink $(readlink /usr/bin/java) | sed -e 's/\/bin\/java//g'
+      register: java_home
+    - block:
+        - file: path=/usr/java state=directory
+        - file: src={{ java_home.stdout }}/ dest={{ java_latest }} state=link
+        - file: src={{ java_latest }}/ dest={{ java_default }} state=link
+        - shell: alternatives --install /usr/bin/java java {{ java_default }}/bin/java 1
+        - shell: alternatives --set java {{ java_default }}/bin/java
+      when: java_home.stdout != "{{ java_default }}"
+    - name: rewrite .bashrc1
+      lineinfile: dest=~/.bashrc line='PATH=$PATH:$HOME/bin'
+      notify: reload bashrc
+    - name: rewrite .bashrc2 
+      lineinfile: dest=~/.bashrc line='export PATH'
+      notify: reload bashrc
+    - name: rewrite .bashrc3 
+      lineinfile: dest=~/.bashrc line='export JAVA_HOME=/usr/java/default'
+      notify: reload bashrc
+    - name: rewrite .bashrc4 
+      lineinfile: dest=~/.bashrc line='export PATH=$JAVA_HOME/bin:$PATH'
+      notify: reload bashrc
+    - name: unarchive edge module 
+      unarchive: src=./{{ edge }}.zip dest=~/ creates=~/{{ edge }}
+    - name: copy postgres.conf
+      copy: src=./postgresql.conf dest=~/{{ edge }}/installer/postgres/postgresql.conf
+    - name: rewrite apigee-lib.sh
+      lineinfile: >-
+        dest=~/{{ edge }}/bin/apigee-lib.sh
+        state=present
+        backrefs=yes
+        backup=yes
+        regexp='3-6'
+        line='redhat\ 6.[3-7]) return 0;;'
+    - name: edge being installed 
+      command: ./apigee-install.sh -r /opt -d /opt -j {{ java_default }} chdir=~/{{ edge }}
+    - name: copy license file
+      copy: src=./license.txt dest=/opt/license.txt
+    - name: copy edge-config 
+      copy: src=./edge-config dest=/opt/apigee4/share/installer/edge-config
+    - name: edge being setuped 
+      command: ./apigee-setup.sh -p aio -f edge-config chdir=/opt/apigee4/share/installer
+    - name: edge being onboarded 
+      command: ./create-org.sh -o {{ org }} -a {{ admin_user }} -P {{ admin_pass }} chdir=/opt/apigee4/bin
+    - name: role being created 
+      command: ./create-roles.sh -o {{ org }} -P {{ admin_pass }} chdir=/opt/apigee4/bin
+    - name: env being added 
+      command: ./add-env.sh -o {{ org }} -P {{ admin_pass }} -e {{ env }} -A -p 9001 -v default -a - chdir=/opt/apigee4/bin
+    - name: autostart now!! 
+      command: ./set-autostart.sh chdir=/opt/apigee4/bin
+  handlers:
+    - name: reload bashrc
+      shell: source ~/.bashrc executable=/bin/bash  

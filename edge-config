@@ -1,0 +1,34 @@
+HOSTIP=$(hostname -i)
+MSIP=$(hostname -i)
+MSNUM=1
+# Enter any one router's IP in ROUTER_IP
+ROUTERIP="$HOSTIP"
+ADMIN_EMAIL=admin@example.com
+APIGEE_ADMINPW=secret123
+LICENSE_FILE=/opt/license.txt
+#LDAP_SID=1
+LDAP_TYPE=1
+APIGEE_LDAPPW=secret123
+ENABLE_AX=y
+MP_POD=gateway
+USE_ZK_CLUSTER=n
+ZK_HOSTS="$HOSTIP"
+ZK_CLIENT_HOSTS="$HOSTIP"
+USE_CASS_CLUSTER=n
+CASS_HOSTS="$HOSTIP"
+PG_PWD=postgres
+SKIP_SMTP=y
+SMTPHOST=smtp.example.com
+SMTPPORT=25
+SMTPUSER=smtp@example.com
+SMTPPASSWORD=smtppwd
+SMTPSSL=n
+BIND_ON_ALL_INTERFACES=y
+MPIP=
+MO_PG_HOST=
+MO_PG_USER=mintpguser
+MO_PG_PASSWD=Secret123
+AX_GROUP=axgroup001
+# SKIP_CASS_SCHEMA_UPGRADE on multiple MS installs, can be set to 1 to not upgrade
+# Cassandra schemas, since they should already be upgraded
+SKIP_CASS_SCHEMA_UPGRADE=0 
