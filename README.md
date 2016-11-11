@@ -56,6 +56,17 @@ exit
 If you will deploy somthing APIProxies, you can go
 * http://192.168.33.10:9001/{basePath}/{resourcePath}
 
+## API-GW BaaS Management UI
+* http://192.168.33.20:9000
+* username: admin@example.com
+* passwowrd: secret123
+
+## API-GW BaaS API
+If you will set up something baas data, you can go
+http://192.168.33.10.8081/AppServices/{org}/{app}
+
+
+
 
 
 
