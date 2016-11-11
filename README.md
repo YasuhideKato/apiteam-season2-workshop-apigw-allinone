@@ -25,7 +25,6 @@ cd /opt/apigee/bin
 sudo ./all-status.sh
 sudo ./all-stop.sh
 sudo ./all-start.sh
-
 exit
 
 vagrant up baas
@@ -43,6 +42,21 @@ cd /opt/apigee/bin
 sudo ./all-status.sh
 sudo ./all-stop.sh
 sudo ./all-start.sh
+exit
 ```
+
+## API-GW Management UI
+* http://192.168.33.10:9000
+* username: admin@example.com
+* passwowrd: secret123
+* org: base
+* env: prod
+
+## API-GW API
+If you will deploy somthing APIProxies, you can go
+* http://192.168.33.10:9001/{basePath}/{resourcePath}
+
+
+
 
 
