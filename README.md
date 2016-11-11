@@ -1,11 +1,7 @@
 # apiteam-season2-workshop-apigw-allinone
 
 ## Prerequisites 
-```
-git clone https://github.com/YasuhideKato/apiteam-season2-workshop-vagrant.git
-cd apiteam-season2-workshop-vagrant
-cat README.md
-```
+https://github.com/YasuhideKato/apiteam-season2-workshop-vagrant
 
 ## Getting Started
 ```
