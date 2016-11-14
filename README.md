@@ -21,7 +21,7 @@ exit
 
 # Check for apigw edge
 vagrant ssh edge
-cd /opt/apigee/bin
+cd /opt/apigee4/bin
 sudo ./all-status.sh
 sudo ./all-stop.sh
 sudo ./all-start.sh
@@ -38,7 +38,7 @@ exit
 
 # Chceck for apigw baas
 vagrant ssh baas
-cd /opt/apigee/bin
+cd /opt/apigee4/bin
 sudo ./all-status.sh
 sudo ./all-stop.sh
 sudo ./all-start.sh
